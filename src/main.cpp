@@ -7,14 +7,7 @@
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	pros::Motor lf(1);
-	pros::Motor rf(2);
-	pros::Motor lr(3);
-	pros::Motor rr(4);
-	pros::Motor lLift(5);
-	pros::Motor rLift(6);
-	pros::Rotation r(8);
+
 }
 
 /**
@@ -62,7 +55,20 @@ void autonomous() {}
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	
+	pros::Controller master(pros::E_CONTROLLER_MASTER);
+	pros::Motor lf(1);
+	pros::Motor rf(2);
+	pros::Motor lr(3);
+	pros::Motor rr(4);
+	pros::Motor lLift(5);
+	pros::Motor rLift(6);
+	pros::Rotation r(8);
+
+	int rDrive;
+	int lDrive;
+	r.reset_position();
+	lLift.set_zero_position(lLift.get_position());
+	int liftPos = r.get_position();
 
 	while (true) {
 		
