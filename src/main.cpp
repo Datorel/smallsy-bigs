@@ -56,22 +56,67 @@ void autonomous() {}
  */
 void opcontrol() {
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	pros::Motor lf(1);
-	pros::Motor rf(2);
-	pros::Motor lr(3);
-	pros::Motor rr(4);
-	pros::Motor lLift(5);
-	pros::Motor rLift(6);
-	pros::Rotation r(8);
+	pros::Motor lf(11);
+	pros::Motor rf(13, 1);
+	pros::Motor lr(12);
+	pros::Motor rr(14, 1);
+	pros::Motor lLift(19);
+	pros::Motor rLift(20, 1);
+	pros::Rotation r(1);
+	pros::ADIDigitalOut stab('g');
+	pros::ADIDigitalOut claw('h');
 
 	int rDrive;
 	int lDrive;
-	r.reset_position();
+	//r.reset_position();
 	lLift.set_zero_position(lLift.get_position());
 	int liftPos = r.get_position();
 
 	while (true) {
-		
+		//drivetrain
+		rDrive = master.get_analog(ANALOG_RIGHT_Y);
+		lDrive = master.get_analog(ANALOG_LEFT_Y);
+		lf.move(lDrive);
+		rf.move(rDrive);
+		lr.move(lDrive);
+		rr.move(rDrive);
+
+		//__arm
+		//printf("Angle: %i \n", r.get_position());
+		master.clear();
+		master.print(0, 0,"Angle: %d", r.get_position());
+
+			if (master.get_digital(DIGITAL_R1)) {
+				//move up
+				rLift.move_velocity(170);
+				lLift.move_velocity(170);
+			}
+			 else if (master.get_digital(DIGITAL_R2)) {
+				//move up
+				rLift.move_velocity(-170);
+				lLift.move_velocity(-170);
+			}
+			else {
+				//move up
+				rLift.move_velocity(0);
+				lLift.move_velocity(0);
+			}
+
+		if (r.get_position() < 3500) {
+			stab.set_value(HIGH);
+		}
+		else {
+			stab.set_value(LOW);
+		}
+
+		//claw
+		if (master.get_digital(DIGITAL_L1)) {
+			claw.set_value(HIGH);
+		}
+		 else if (master.get_digital(DIGITAL_L2)) {
+			claw.set_value(LOW);
+		}
+
 		pros::delay(20);
 	}
 }
