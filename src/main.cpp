@@ -56,12 +56,12 @@ void autonomous() {}
  */
 void opcontrol() {
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	pros::Motor lf(11);
-	pros::Motor rf(13, 1);
-	pros::Motor lr(12);
-	pros::Motor rr(14, 1);
-	pros::Motor lLift(19);
-	pros::Motor rLift(20, 1);
+	pros::Motor lf(11, 1);
+	pros::Motor rf(13);
+	pros::Motor lr(12, 1);
+	pros::Motor rr(14);
+	pros::Motor lLift(19, 1);
+	pros::Motor rLift(20);
 	pros::Rotation r(1);
 	pros::ADIDigitalOut stab('g');
 	pros::ADIDigitalOut claw('h');
@@ -74,8 +74,8 @@ void opcontrol() {
 
 	while (true) {
 		//drivetrain
-		rDrive = master.get_analog(ANALOG_RIGHT_Y);
-		lDrive = master.get_analog(ANALOG_LEFT_Y);
+		rDrive = master.get_analog(ANALOG_LEFT_Y);
+		lDrive = master.get_analog(ANALOG_RIGHT_Y);
 		lf.move(lDrive);
 		rf.move(rDrive);
 		lr.move(lDrive);
@@ -102,10 +102,10 @@ void opcontrol() {
 				lLift.move_velocity(0);
 			}
 
-		if (r.get_position() < 3500) {
+		if (master.get_digital(DIGITAL_A)) {
 			stab.set_value(HIGH);
 		}
-		else {
+		else if (master.get_digital(DIGITAL_B)) {
 			stab.set_value(LOW);
 		}
 
@@ -113,7 +113,7 @@ void opcontrol() {
 		if (master.get_digital(DIGITAL_L1)) {
 			claw.set_value(HIGH);
 		}
-		 else if (master.get_digital(DIGITAL_L2)) {
+		else if (master.get_digital(DIGITAL_L2)) {
 			claw.set_value(LOW);
 		}
 
