@@ -7,7 +7,8 @@
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-
+	pros::ADIDigitalOut claw('h');
+	claw.set_value(HIGH);
 }
 
 /**
@@ -15,7 +16,10 @@ void initialize() {
  * the VEX Competition Switch, following either autonomous or opcontrol. When
  * the robot is enabled, this task will exit.
  */
-void disabled() {}
+void disabled() {
+	pros::ADIDigitalOut claw('h');
+	claw.set_value(HIGH);
+}
 
 /**
  * Runs after initialize(), and before autonomous when connected to the Field
@@ -39,7 +43,65 @@ void competition_initialize() {}
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() {}
+void autonomous() {
+	pros::Motor lLift(19, 1);
+	pros::Motor rLift(20);
+	pros::Motor lf(16, 1);
+	pros::Motor rf(13);
+	pros::Motor lr(17, 1);
+	pros::Motor rr(14);
+	pros::ADIDigitalOut claw('h');
+
+	pros::ADIDigitalOut stab('g');
+
+	claw.set_value(HIGH);
+	stab.set_value(LOW);
+
+	lLift.move_velocity(-100);
+	rLift.move_velocity(-100);
+	pros::delay(4500);
+	lLift.move_velocity(0);
+	rLift.move_velocity(0);
+	lf.move_velocity(50);
+	rf.move_velocity(50);
+	lr.move_velocity(50);
+	rr.move_velocity(50);
+	stab.set_value(HIGH);
+
+	pros::delay(2000);
+	lf.move_velocity(0);
+	rf.move_velocity(0);
+	lr.move_velocity(0);
+	rr.move_velocity(0);
+	claw.set_value(LOW);
+
+
+	lf.move_velocity(50);
+	rf.move_velocity(50);
+	lr.move_velocity(50);
+	rr.move_velocity(50);
+
+	pros::delay(500);
+	lf.move_velocity(0);
+	rf.move_velocity(0);
+	lr.move_velocity(0);
+	rr.move_velocity(0);
+
+	lf.move_velocity(-50);
+	rf.move_velocity(-50);
+	lr.move_velocity(-50);
+	rr.move_velocity(-50);
+
+	pros::delay(2000);
+	lf.move_velocity(0);
+	rf.move_velocity(0);
+	lr.move_velocity(0);
+	rr.move_velocity(0);
+
+stab.set_value(LOW);
+
+
+}
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -56,9 +118,9 @@ void autonomous() {}
  */
 void opcontrol() {
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	pros::Motor lf(11, 1);
+	pros::Motor lf(16, 1);
 	pros::Motor rf(13);
-	pros::Motor lr(12, 1);
+	pros::Motor lr(17, 1);
 	pros::Motor rr(14);
 	pros::Motor lLift(19, 1);
 	pros::Motor rLift(20);
@@ -66,11 +128,14 @@ void opcontrol() {
 	pros::ADIDigitalOut stab('g');
 	pros::ADIDigitalOut claw('h');
 
+	lLift.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	rLift.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	int rDrive;
 	int lDrive;
 	//r.reset_position();
 	lLift.set_zero_position(lLift.get_position());
 	int liftPos = r.get_position();
+	claw.set_value(HIGH);
 
 	while (true) {
 		//drivetrain
