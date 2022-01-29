@@ -56,32 +56,32 @@ void autonomous() {}
  */
 void opcontrol() {
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	pros::Motor lf(11, 1);
-	pros::Motor rf(13);
-	pros::Motor lr(12, 1);
-	pros::Motor rr(14);
-	pros::Motor lLift(19, 1);
-	pros::Motor rLift(20);
-	pros::Rotation r(1);
-	pros::ADIDigitalOut stab('g');
-	pros::ADIDigitalOut claw('h');
+	pros::Motor lf(1, 1);
+	pros::Motor rf(3);
+	pros::Motor lr(8, 1);
+	pros::Motor rr(10);
+	//pros::Motor lLift(19, 1);
+	//pros::Motor rLift(20);
+	//pros::Rotation r(1);
+	//pros::ADIDigitalOut stab('g');
+	//pros::ADIDigitalOut claw('h');
 
 	int rDrive;
 	int lDrive;
 	//r.reset_position();
-	lLift.set_zero_position(lLift.get_position());
-	int liftPos = r.get_position();
+	//lLift.set_zero_position(lLift.get_position());
+	//int liftPos = r.get_position();
 
 	while (true) {
 		//drivetrain
-		rDrive = master.get_analog(ANALOG_LEFT_Y);
-		lDrive = master.get_analog(ANALOG_RIGHT_Y);
+		rDrive = master.get_analog(ANALOG_RIGHT_Y);
+		lDrive = master.get_analog(ANALOG_LEFT_Y);
 		lf.move(lDrive);
 		rf.move(rDrive);
 		lr.move(lDrive);
 		rr.move(rDrive);
 
-		//__arm
+		/*//__arm
 		//printf("Angle: %i \n", r.get_position());
 		master.clear();
 		master.print(0, 0,"Angle: %d", r.get_position());
@@ -116,7 +116,7 @@ void opcontrol() {
 		else if (master.get_digital(DIGITAL_L2)) {
 			claw.set_value(LOW);
 		}
-
+*/
 		pros::delay(20);
 	}
 }
