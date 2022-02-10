@@ -59,7 +59,7 @@ void autonomous() {
 
 	lLift.move_velocity(-100);
 	rLift.move_velocity(-100);
-	pros::delay(4500);
+	pros::delay(5000);
 	lLift.move_velocity(0);
 	rLift.move_velocity(0);
 	lf.move_velocity(50);
@@ -68,7 +68,7 @@ void autonomous() {
 	rr.move_velocity(50);
 	stab.set_value(HIGH);
 
-	pros::delay(2000);
+	pros::delay(1000);
 	lf.move_velocity(0);
 	rf.move_velocity(0);
 	lr.move_velocity(0);
@@ -76,10 +76,10 @@ void autonomous() {
 	claw.set_value(LOW);
 
 
-	lf.move_velocity(50);
-	rf.move_velocity(50);
-	lr.move_velocity(50);
-	rr.move_velocity(50);
+	lf.move_velocity(10);
+	rf.move_velocity(10);
+	lr.move_velocity(10);
+	rr.move_velocity(10);
 
 	pros::delay(500);
 	lf.move_velocity(0);
@@ -92,13 +92,32 @@ void autonomous() {
 	lr.move_velocity(-50);
 	rr.move_velocity(-50);
 
-	pros::delay(2000);
+	pros::delay(1500);
 	lf.move_velocity(0);
 	rf.move_velocity(0);
 	lr.move_velocity(0);
 	rr.move_velocity(0);
+	stab.set_value(LOW);
+	lLift.move_velocity(-50);
+	rLift.move_velocity(-50);
+	pros::delay(2000);
+	lLift.move_velocity(0);
+	rLift.move_velocity(0);
+/*
+	lf.move_velocity(100);
+	rf.move_velocity(100);
+	lr.move_velocity(100);
+	rr.move_velocity(100);
 
-stab.set_value(LOW);
+	pros::delay(8000);
+	lf.move_velocity(0);
+	rf.move_velocity(0);
+	lr.move_velocity(0);
+	rr.move_velocity(0);*/
+
+
+
+
 
 
 }
