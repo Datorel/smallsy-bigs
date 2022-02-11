@@ -149,6 +149,10 @@ void opcontrol() {
 
 	lLift.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	rLift.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	lf.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	rf.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	lr.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	rr.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	int rDrive;
 	int lDrive;
 	//r.reset_position();
@@ -168,7 +172,7 @@ void opcontrol() {
 		//__arm
 		//printf("Angle: %i \n", r.get_position());
 		master.clear();
-		master.print(0, 0,"Angle: %d", r.get_position());
+		master.print(0, 0,"Angle: %i", int(r.get_position()));
 
 			if (master.get_digital(DIGITAL_R1)) {
 				//move up
